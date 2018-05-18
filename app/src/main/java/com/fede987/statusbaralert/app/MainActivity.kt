@@ -2,7 +2,6 @@ package com.fede987.statusbaralert.app
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.fede987.statusbaralert.R
 import com.fede987.statusbaralert.StatusBarAlert
 import kotlinx.android.synthetic.main.activity_main.*
 

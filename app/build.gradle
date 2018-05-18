@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 27
     defaultConfig {
-        applicationId "com.fede987.statusbaralert"
+        applicationId "com.fede987.statusbaralert.app"
         minSdkVersion 21
         targetSdkVersion 27
         versionCode 1
