@@ -24,7 +24,7 @@ compile 'com.fede987:status-bar-alert:1.0.0'
 
 Show a new status bar alert
 
-``` StatusBarAlert.Builder(this@MainActivity)
+```StatusBarAlert.Builder(this@MainActivity)
                        .autoHide(true)
                        .withDuration(100)
                        .showProgress(true)
@@ -35,23 +35,9 @@ Show a new status bar alert
 
 Hide all status bar alerts for current activity with a "on hidden" callback:
 
-``` StatusBarAlert.hide(this@MainActivity, Runnable {})
+```StatusBarAlert.hide(this@MainActivity, Runnable {})
 ```
 
-For example, the following snippet (ArticleDetailFragment.java) binds automatically the view:
-```java
-    @Bind(R.id.quote)
-    TextView quote;
-
-    @Bind(R.id.author)
-    TextView author;
-
-    @Bind(R.id.backdrop)
-    ImageView backdropImg;
-
-    @Bind(R.id.collapsing_toolbar)
-    CollapsingToolbarLayout collapsingToolbar;
-```
 
 
 
