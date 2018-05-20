@@ -1,4 +1,4 @@
-https://www.dropbox.com/s/pal0guq1yxyr7rc/status_bar_alert_demo.gif
+![demo](https://ibb.co/bXXqbT)
 
 ## What is this?
 
