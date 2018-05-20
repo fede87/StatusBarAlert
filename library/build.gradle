@@ -11,7 +11,7 @@ apply plugin: 'com.jfrog.bintray'
 ext {
     bintrayRepo = 'status-bar-alert' // your repo name
     bintrayName = 'status-bar-alert' // has to be same as your library module name
-    publishedGroupId = 'com.fede987.statusbaralert' // your module package name
+    publishedGroupId = 'com.fede987' // your module package name
     libraryName = 'status-bar-alert'
     artifact = 'status-bar-alert' // has to be same as your library module name
     libraryDescription = 'TelegramX inspired status bar alert'
@@ -30,7 +30,7 @@ android {
     compileSdkVersion 27
 
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 14
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
