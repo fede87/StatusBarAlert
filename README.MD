@@ -1,4 +1,4 @@
-![demo](https://ibb.co/bXXqbT)
+<img src="https://github.com/fede87/StatusBarAlert/raw/master/status_bar_alert_demo.gif" width="330" height="600" />
 
 ## What is this?
 
