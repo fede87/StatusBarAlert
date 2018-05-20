@@ -1,4 +1,4 @@
-(https://www.dropbox.com/s/pal0guq1yxyr7rc/status_bar_alert_demo.gif?dl=0)
+https://www.dropbox.com/s/pal0guq1yxyr7rc/status_bar_alert_demo.gif
 
 ## What is this?
 
