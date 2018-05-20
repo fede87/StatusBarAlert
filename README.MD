@@ -1,4 +1,4 @@
-https://www.dropbox.com/s/pal0guq1yxyr7rc/status_bar_alert_demo.gif?dl=0
+(https://www.dropbox.com/s/pal0guq1yxyr7rc/status_bar_alert_demo.gif?dl=0)
 
 ## What is this?
 
@@ -18,7 +18,7 @@ The template support every device with a SDK level of at least 14 (Android 4+).
 
 Add this line to your app's dependecies:
 
-compile 'com.fede987:status-bar-alert:1.0.0'
+implementation 'com.fede987:status-bar-alert:1.0.0'
 
 ### Quick Sample
 
