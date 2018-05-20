@@ -1,4 +1,4 @@
-https://www.dropbox.com/s/pal0guq1yxyr7rc/status_bar_alert_demo.gif
+![demo](https://ibb.co/bXXqbT)
 
 ## What is this?
 
@@ -9,7 +9,7 @@ When showing, status bar alert kindly hides status bar's icon with SYSTEM_UI_FLA
 
 ## Supported devices
 
-The template support every device with a SDK level of at least 14 (Android 4+).
+This lib is supported by every device with a SDK level of at least 14 (Android 4+).
 
 
 ## Quick walkthrough
