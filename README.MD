@@ -18,7 +18,7 @@ This lib is supported by every device with a SDK level of at least 14 (Android 4
 
 Add this line to your app's dependecies:
 
-implementation 'com.fede987:status-bar-alert:1.0.0'
+implementation 'com.fede987:status-bar-alert:1.0.1'
 
 ### Quick Sample
 
