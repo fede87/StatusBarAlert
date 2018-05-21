@@ -8,24 +8,6 @@ apply plugin: 'com.android.library'
 
 apply plugin: 'com.jfrog.bintray'
 
-ext {
-    bintrayRepo = 'status-bar-alert' // your repo name
-    bintrayName = 'status-bar-alert' // has to be same as your library module name
-    publishedGroupId = 'com.fede987' // your module package name
-    libraryName = 'status-bar-alert'
-    artifact = 'status-bar-alert' // has to be same as your library module name
-    libraryDescription = 'TelegramX inspired status bar alert'
-    siteUrl = 'https://github.com/fede87/StatusBarAlert'
-    gitUrl = 'https://github.com/androidCode/StatusBarAlert.git'
-    libraryVersion = '1.0.0'
-    developerId = 'fede987'
-    developerName = 'fede987'
-    developerEmail = 'federicomarin87@gmail.com'
-    licenseName = 'The Apache Software License, Version 2.0'
-    licenseUrl = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-    allLicenses = ["Apache-2.0"]
-}
-
 android {
     compileSdkVersion 27
 
@@ -66,5 +48,5 @@ tasks.withType(Javadoc).all {
     enabled = false
 }
 
-apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/installv.gradle'
-apply from: 'https://raw.githubusercontent.com/numetriclabz/jcenter/master/bintrayv.gradle'
+apply from: 'install.gradle'
+apply from: 'bintray.gradle'

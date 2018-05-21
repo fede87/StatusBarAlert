@@ -1,0 +1,33 @@
+apply plugin: 'com.jfrog.bintray'
+
+version = '1.0.1'
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+// Bintray
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = 'status-bar-alert'
+        name = 'status-bar-alert' //YOUR PACKAGE NAME
+        desc = 'Telegram X inspired status bar alert for Android' // YOUR LIBRARY DESCRIPTION
+        websiteUrl = 'https://github.com/fede87/StatusBarAlert' // YOUR SITE
+        vcsUrl = 'https://github.com/androidCode/StatusBarAlert.git' // YOUR GIT REPO
+        licenses = ["Apache-2.0"] // A LIST OF YOUR LICENCES
+        publish = true
+        publicDownloadNumbers = true
+    }
+}

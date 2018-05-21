@@ -1,0 +1,39 @@
+apply plugin: 'com.github.dcendents.android-maven'
+
+group = 'com.fede987'
+
+install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'aar'
+                groupId 'com.fede987'
+                artifactId 'status-bar-alert'
+
+                name 'status-bar-alert'
+                description 'Telegram X inspired status bar alert for Android'
+                url 'https://github.com/fede87/StatusBarAlert'
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'fede987'
+                        name 'Federico Marin'
+                        email 'federicomarin87@gmail.com'
+                    }
+                }
+                scm {
+                    connection 'https://github.com/androidCode/StatusBarAlert.git'
+                    developerConnection  'https://github.com/androidCode/StatusBarAlert.git'
+                    url 'https://github.com/fede87/StatusBarAlert'
+
+                }
+            }
+        }
+    }
+}
