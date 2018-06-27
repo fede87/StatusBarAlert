@@ -2,8 +2,8 @@
 
 ## What is this?
 
-This is a small library inspired by Telegram X status bar new alert written in Kotlin.
-It can show custom message with optional indeterminate progress in status bar area.
+This is a small library inspired by Telegram X status bar new alert, written in Kotlin.
+It shows custom message with optional indeterminate progress in status bar area.
 Optional autohide feature can be tweaked with custom duration.
 When showing, status bar alert kindly hides status bar's icon with SYSTEM_UI_FLAG_LOW_PROFILE flag mode, if avaible from os.
 
