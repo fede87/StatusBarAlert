@@ -1,3 +1,5 @@
+[![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-Status%20Bar%20Alert-green.svg?style=flat )]( https://android-arsenal.com/details/1/7037 )
+
 <img src="https://github.com/fede87/StatusBarAlert/raw/master/status_bar_alert_demo.gif" width="330" height="600" />
 
 ## What is this?
