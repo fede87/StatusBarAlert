@@ -38,6 +38,7 @@ val statusBarAlertview: StatusBarAlertView = StatusBarAlert.Builder(this@MainAct
                        .showProgress(true)
                        .withText("autohide!")
                        .withAlertColor(R.color.colorPrimaryDark)
+                       .withTypeface(typeface)
                        .build()
                        
                        
