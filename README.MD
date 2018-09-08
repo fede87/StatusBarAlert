@@ -21,24 +21,38 @@ This lib is supported by every device with a SDK level of at least 14 (Android 4
 ### Gradle
 
 
-Add this line to your app's dependecies:
+Add this line to your app's dependencies:
 
 ```
-implementation 'com.fede987:status-bar-alert:1.0.1'
+implementation 'com.fede987:status-bar-alert:1.0.2'
 ```
 
 ### Quick Sample
 
-Show a new status bar alert
+Show a new status bar alert:
 
 ```
-StatusBarAlert.Builder(this@MainActivity)
+val statusBarAlertview: StatusBarAlertView = StatusBarAlert.Builder(this@MainActivity)
                        .autoHide(true)
                        .withDuration(100)
                        .showProgress(true)
                        .withText("autohide!")
                        .withAlertColor(R.color.colorPrimaryDark)
                        .build()
+                       
+                       
+//update status bar alert view text at any time:
+statusBarAlertView.updateText("UPDATED!!")
+//or:
+statusBarAlertView.updateText(R.string.updated)
+ 
+ 
+// show indeterminate progress:
+statusBarAlertView.showIndeterminateProgress()
+ 
+// hide indeterminate progress:
+statusBarAlertView.hideIndeterminateProgress()
+ 
 ```
 
 Hide all status bar alerts for current activity with a "on hidden" callback:
