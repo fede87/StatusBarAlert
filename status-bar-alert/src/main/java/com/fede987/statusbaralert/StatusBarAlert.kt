@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.app.Activity
 import android.graphics.Typeface
 import android.os.Build
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -35,8 +36,8 @@ class StatusBarAlert {
          * @param alertColor background color.
          * @return Builder
          */
-        fun withAlertColor(alertColor: Int): Builder {
-            this.alertColor = alertColor
+        fun withAlertColor(alertColor: Int, isColor: Boolean = false): Builder {
+            this.alertColor = if (isColor) alertColor else ContextCompat.getColor(context, alertColor)
             return this
         }
 

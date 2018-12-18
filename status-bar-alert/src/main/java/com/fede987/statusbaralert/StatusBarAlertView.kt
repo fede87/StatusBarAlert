@@ -58,7 +58,7 @@ class StatusBarAlertView(any: Activity, alertColor: Int, stringText: String?, te
 
         this.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, any.getStatusBarHeight())
         this.gravity = Gravity.CENTER_HORIZONTAL
-        if(alertColor>0) {setBackgroundColor(ContextCompat.getColor(any, alertColor))}
+        setBackgroundColor(alertColor)
 
         val ll2 = LinearLayout(any)
         ll2.orientation = LinearLayout.HORIZONTAL
