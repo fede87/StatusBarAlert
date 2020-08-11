@@ -56,10 +56,18 @@ statusBarAlertView.hideIndeterminateProgress()
  
 ```
 
-Hide all status bar alerts for current activity with a "on hidden" callback:
+Hide all status bar alerts for current activity with an optional "on hidden" callback:
 
 ```
-StatusBarAlert.hide(this@MainActivity, Runnable {})
+StatusBarAlert.hide(this@MainActivity) {
+    // onHidden callback
+    Toast.makeText(this@MainActivity.applicationContext, "Alert has been hidden.", Toast.LENGHT_SHORT).show()
+}
+
+// or just call:
+
+StatusBarAlert.hide(this@MainActivity)
+
 ```
 
 ## License
