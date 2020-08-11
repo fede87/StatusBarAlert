@@ -2,16 +2,16 @@ package com.fede987.statusbaralert
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.arch.lifecycle.Lifecycle
-import android.arch.lifecycle.LifecycleObserver
-import android.arch.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.os.Build
-import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.appcompat.app.AppCompatActivity
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
