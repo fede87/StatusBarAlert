@@ -15,6 +15,7 @@ When showing, status bar alert kindly hides status bar's icon with SYSTEM_UI_FLA
 
 This lib is supported by every device with a SDK level of at least 14 (Android 4+).
 
+<b>Android X required for v1.1.0, otherwise use old version v1.0.2.</b>
 
 ## Quick walkthrough
 
