@@ -26,7 +26,7 @@ class StatusBarAlert {
         private var stringText: String = ""
         private var alertColor: Int = 0
         private var showProgress: Boolean = false
-        private var duration:Long = 2000
+        private var duration: Long = 2000
         private var autoHide: Boolean = true
         private var typeFace: Typeface? = null
 
@@ -104,7 +104,7 @@ class StatusBarAlert {
          * Builds and return status bar alert as a View.
          * @return view status bar alert.
          */
-        fun build() : StatusBarAlertView? = addStatusBarTextAndProgress(context, text, stringText, alertColor, showProgress, typeFace, autoHide, duration)
+        fun build(): StatusBarAlertView? = addStatusBarTextAndProgress(context, text, stringText, alertColor, showProgress, typeFace, autoHide, duration)
     }
 
     companion object {
@@ -114,11 +114,11 @@ class StatusBarAlert {
 
         internal fun addStatusBarTextAndProgress(any: Activity, text: Int?, stringText: String?, alertColor: Int, showProgress: Boolean, typeFace: Typeface?, autoHide: Boolean, duration: Long): StatusBarAlertView? {
 
-            this.hide(any,null)
+            this.hide(any)
 
-            val statusBarAlert = StatusBarAlertView(any,alertColor,stringText,text,typeFace,showProgress, autoHide, duration)
+            val statusBarAlert = StatusBarAlertView(any, alertColor, stringText, text, typeFace, showProgress, autoHide, duration)
 
-            if(allAlerts[any.componentName.className]==null) {
+            if (allAlerts[any.componentName.className] == null) {
                 allAlerts[any.componentName.className] = mutableListOf()
             }
 
@@ -128,21 +128,37 @@ class StatusBarAlert {
             return statusBarAlert
         }
 
+        @Deprecated(
+                message = "Use new hide implementation hide(any: Activity, onHidden: (() -> Unit)?)",
+                level = DeprecationLevel.WARNING,
+                replaceWith = ReplaceWith(expression = "StatusBarAlert.hide(activity) {}"))
         fun hide(any: Activity, onHidden: Runnable?) {
 
-            if(allAlerts[any.componentName.className]==null || allAlerts[any.componentName.className]?.size==0) {
+            if (allAlerts[any.componentName.className] == null || allAlerts[any.componentName.className]?.size == 0) {
                 onHidden?.run()
             } else {
                 allAlerts[any.componentName.className]?.forEach {
-                    hideInternal(any,it,onHidden)
+                    hideInternal(any, it, onHidden)
                 }
                 allAlerts[any.componentName.className]?.clear()
             }
         }
 
-        private fun hideInternal(any: Activity, it: StatusBarAlertView, onHidden: Runnable?) {
+        fun hide(any: Activity, onHidden: (() -> Unit)? = null) {
 
-            if(it.parent != null) {
+            if (allAlerts[any.componentName.className] == null || allAlerts[any.componentName.className]?.size == 0) {
+                onHidden?.invoke()
+            } else {
+                allAlerts[any.componentName.className]?.forEach {
+                    hideInternal(any, it, null, onHidden)
+                }
+                allAlerts[any.componentName.className]?.clear()
+            }
+        }
+
+        private fun hideInternal(any: Activity, it: StatusBarAlertView, onHiddenRunnable: Runnable? = null, onHidden: (() -> Unit)? = null) {
+
+            if (it.parent != null) {
 
                 any.window.decorView.rootView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
 
@@ -164,8 +180,10 @@ class StatusBarAlert {
                             override fun onAnimationRepeat(animation: Animator?) {}
                             override fun onAnimationEnd(animation: Animator?) {
                                 decor.removeView(it)
-                                onHidden?.run()
+                                onHiddenRunnable?.run()
+                                onHidden?.invoke()
                             }
+
                             override fun onAnimationStart(animation: Animator?) {}
                             override fun onAnimationCancel(animation: Animator?) {}
                         })

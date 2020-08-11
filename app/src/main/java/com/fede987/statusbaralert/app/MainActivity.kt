@@ -4,6 +4,7 @@ import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.widget.Toast
 import com.fede987.statusbaralert.StatusBarAlert
 import com.fede987.statusbaralert.StatusBarAlertView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,7 +29,9 @@ class MainActivity : AppCompatActivity() {
         alert1 = null
         alert2 = null
         handler.removeCallbacksAndMessages(null)
-        StatusBarAlert.hide(this, Runnable{})
+        StatusBarAlert.hide(this) {
+            Toast.makeText(applicationContext, "hidden alert @onDestroy", Toast.LENGTH_SHORT).show()
+        }
         super.onDestroy()
     }
 

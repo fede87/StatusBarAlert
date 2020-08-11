@@ -20,6 +20,7 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import com.fede987.statusbaralert.utils.convertDpToPixel
 import com.fede987.statusbaralert.utils.getStatusBarHeight
 import com.fede987.statusbaralert.utils.isTranslucentStatusBar
@@ -45,7 +46,7 @@ class StatusBarAlertView(any: Activity, alertColor: Int, stringText: String?, te
 
                 @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
                 fun destroy() {
-                    StatusBarAlert.hide(any, Runnable{})
+                    StatusBarAlert.hide(any)
                     any.lifecycle.removeObserver(this)
                 }
             })
@@ -118,7 +119,7 @@ class StatusBarAlertView(any: Activity, alertColor: Int, stringText: String?, te
         if(autohide) {
 
             autohideRunnable = Runnable{
-                StatusBarAlert.hide(any, null)
+                StatusBarAlert.hide(any)
                 StatusBarAlert.allAlerts.remove(any.componentName.className)
             }
 
