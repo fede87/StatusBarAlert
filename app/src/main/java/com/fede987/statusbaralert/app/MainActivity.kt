@@ -1,7 +1,7 @@
 package com.fede987.statusbaralert.app
 
 import android.graphics.Typeface
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import com.fede987.statusbaralert.StatusBarAlert
@@ -32,14 +32,14 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
     }
 
-    fun createCustomTypeface() {
+    private fun createCustomTypeface() {
         typeface = Typeface.createFromAsset(assets, "font/Lato-Regular.ttf")
     }
 
 
-    fun setupButtons() {
+    private fun setupButtons() {
 
-        button1.setOnClickListener({
+        button1.setOnClickListener {
 
             alert1 = StatusBarAlert.Builder(this@MainActivity)
                     .autoHide(true)
@@ -47,7 +47,7 @@ class MainActivity : AppCompatActivity() {
                     .withDuration(10000)
                     .withText("autohide!")
                     .withTypeface(typeface!!)
-                    .withAlertColor(R.color.colorPrimaryDark)
+                    .withAlertColor(R.color.colorAccent)
                     .build()
 
             handler.postDelayed({
@@ -66,9 +66,9 @@ class MainActivity : AppCompatActivity() {
                 alert1?.hideIndeterminateProgress()
             },7500)
 
-        })
+        }
 
-        button2.setOnClickListener({
+        button2.setOnClickListener {
 
             alert2 = StatusBarAlert.Builder(this@MainActivity)
                     .autoHide(false)
@@ -84,9 +84,9 @@ class MainActivity : AppCompatActivity() {
             },2000)
 
 
-        })
+        }
 
-        button3.setOnClickListener({
+        button3.setOnClickListener {
 
             StatusBarAlert.Builder(
                     this@MainActivity)
@@ -98,7 +98,6 @@ class MainActivity : AppCompatActivity() {
                     .withAlertColor(R.color.green)
                     .build()
 
-        })
-
+        }
     }
 }
