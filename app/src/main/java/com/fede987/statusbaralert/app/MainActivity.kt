@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
         typeface = Typeface.createFromAsset(assets, "font/Lato-Regular.ttf")
     }
 
-
     private fun setupButtons() {
 
         button1.setOnClickListener {
@@ -56,18 +55,18 @@ class MainActivity : AppCompatActivity() {
             handler.postDelayed({
                 alert1?.updateText("Phase 1!")
                 alert1?.showIndeterminateProgress()
-            },2000)
+            }, 2000)
 
 
             handler.postDelayed({
                 alert1?.updateText("Phase 2!")
                 alert1?.showIndeterminateProgress()
-            },4000)
+            }, 4000)
 
             handler.postDelayed({
                 alert1?.updateText("Completed!")
                 alert1?.hideIndeterminateProgress()
-            },7500)
+            }, 7500)
 
         }
 
@@ -82,10 +81,9 @@ class MainActivity : AppCompatActivity() {
                     .build()
 
             handler.postDelayed({
-                if(alert2?.parent!=null)
+                if (alert2?.parent != null)
                     alert2?.updateText("INFO UPDATED!!")
-            },2000)
-
+            }, 2000)
 
         }
 
@@ -101,6 +99,21 @@ class MainActivity : AppCompatActivity() {
                     .withAlertColor(R.color.green)
                     .build()
 
+        }
+
+        button4.setOnClickListener {
+
+            // transparent alert effect is achieved using default status bar background color
+
+            StatusBarAlert.Builder(
+                    this@MainActivity)
+                    .autoHide(true)
+                    .withDuration(500)
+                    .showProgress(false)
+                    .withText("transparent alert!")
+                    .withAlertColor(R.color.colorPrimaryDark)
+                    .withTypeface(typeface!!)
+                    .build()
         }
     }
 }
