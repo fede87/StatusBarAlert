@@ -160,7 +160,8 @@ class StatusBarAlert {
 
             if (it.parent != null) {
 
-                any.window.decorView.rootView.systemUiVisibility = View.SYSTEM_UI_FLAG_VISIBLE
+                any.window.decorView.rootView.systemUiVisibility =
+                        any.window.decorView.rootView.systemUiVisibility or View.SYSTEM_UI_FLAG_VISIBLE
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     any.window.statusBarColor = it.statusBarColorOringinal
