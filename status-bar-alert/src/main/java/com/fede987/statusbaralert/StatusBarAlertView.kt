@@ -20,7 +20,6 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.Toast
 import com.fede987.statusbaralert.utils.convertDpToPixel
 import com.fede987.statusbaralert.utils.getStatusBarHeight
 import com.fede987.statusbaralert.utils.isTranslucentStatusBar
@@ -90,10 +89,10 @@ class StatusBarAlertView(any: Activity, alertColor: Int, stringText: String?, te
         addView(ll2)
 
         val decorView = any.window.decorView.rootView
-        decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE
+        decorView.systemUiVisibility = decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LOW_PROFILE
 
         decorView.setOnSystemUiVisibilityChangeListener { _ ->
-            this.systemUiVisibility = View.SYSTEM_UI_FLAG_LOW_PROFILE
+            this.systemUiVisibility = this.systemUiVisibility or View.SYSTEM_UI_FLAG_LOW_PROFILE
         }
 
         hasOriginalStatusBarTranslucent = any.isTranslucentStatusBar()
