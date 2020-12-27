@@ -1,8 +1,6 @@
 apply plugin: 'com.jfrog.bintray'
 
-ext {
-    version = '1.1.0'
-}
+version = '1.2.0'
 
 task sourcesJar(type: Jar) {
     from android.sourceSets.main.java.srcDirs
@@ -26,7 +24,8 @@ bintray {
         repo = 'status-bar-alert'
         name = 'status-bar-alert'
         desc = 'Telegram X inspired status bar alert for Android'
-        dryRun = false
+        dryRun = true
+        override = false
         websiteUrl = 'https://github.com/fede87/StatusBarAlert'
         vcsUrl = 'https://github.com/androidCode/StatusBarAlert.git'
         licenses = ["Apache-2.0"]
