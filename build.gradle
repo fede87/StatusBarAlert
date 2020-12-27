@@ -20,9 +20,6 @@ allprojects {
     repositories {
         google()
         jcenter()
-        maven {
-            url "http://dl.bintray.com/fede987/status-bar-alert"
-        }
     }
 }
 
