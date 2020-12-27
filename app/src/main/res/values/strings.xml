@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">StatusBarAlert</string>
+    <string name="enable_dark_status_bar_icons">Enable dark status bar icons</string>
+    <string name="enable_translucent_status_bar">Enable translucent status bar</string>
+    <string name="transparent_alert">Transparent alert</string>
+    <string name="blink">BLINK!</string>
+    <string name="red_alert">Red alert</string>
+    <string name="auto_hide_progress">Auto hide progress</string>
 </resources>

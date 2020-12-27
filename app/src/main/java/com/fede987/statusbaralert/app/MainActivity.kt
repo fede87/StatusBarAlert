@@ -1,13 +1,19 @@
 package com.fede987.statusbaralert.app
 
 import android.graphics.Typeface
-import androidx.appcompat.app.AppCompatActivity
+import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.fede987.statusbaralert.StatusBarAlert
 import com.fede987.statusbaralert.StatusBarAlertView
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.activity_main.button1
+import kotlinx.android.synthetic.main.activity_main.button2
+import kotlinx.android.synthetic.main.activity_main.button3
+import kotlinx.android.synthetic.main.activity_main.button4
+import kotlinx.android.synthetic.main.activity_main.dark_status_checkbox
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,6 +46,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupButtons() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            dark_status_checkbox.setOnCheckedChangeListener { button, checked ->
+                if (checked) window.decorView.systemUiVisibility = window.decorView.systemUiVisibility or View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+                else window.decorView.systemUiVisibility = window.decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR.inv()
+            }
+        } else dark_status_checkbox.visibility = View.GONE
 
         button1.setOnClickListener {
 
@@ -50,6 +62,8 @@ class MainActivity : AppCompatActivity() {
                     .withText("autohide!")
                     .withTypeface(typeface!!)
                     .withAlertColor(R.color.colorAccent)
+                    .withIndeterminateProgressBarColor(R.color.colorPrimary)
+                    .withTextColor(R.color.colorPrimary)
                     .build()
 
             handler.postDelayed({
@@ -78,6 +92,8 @@ class MainActivity : AppCompatActivity() {
                     .withText("RED ALERT!")
                     .withTypeface(typeface!!)
                     .withAlertColor(R.color.red)
+                    .withTextColor(R.color.colorPrimaryDark)
+                    .withIndeterminateProgressBarColor(R.color.colorPrimaryDark)
                     .build()
 
             handler.postDelayed({
@@ -92,26 +108,28 @@ class MainActivity : AppCompatActivity() {
             StatusBarAlert.Builder(
                     this@MainActivity)
                     .autoHide(true)
-                    .withDuration(100)
+                    .withDuration(400)
                     .showProgress(false)
                     .withText("BLINK!")
                     .withTypeface(typeface!!)
                     .withAlertColor(R.color.green)
+                    .withTextColor(R.color.colorAccent)
+                    .withIndeterminateProgressBarColor(R.color.colorAccent)
                     .build()
 
         }
 
         button4.setOnClickListener {
 
-            // transparent alert effect is achieved using default status bar background color
-
             StatusBarAlert.Builder(
                     this@MainActivity)
                     .autoHide(true)
-                    .withDuration(500)
+                    .withDuration(2000)
                     .showProgress(false)
                     .withText("transparent alert!")
-                    .withAlertColor(R.color.colorPrimaryDark)
+                    .withAlertColor(android.R.color.transparent)
+                    .withTextColor(R.color.colorAccent)
+                    .withIndeterminateProgressBarColor(R.color.colorAccent)
                     .withTypeface(typeface!!)
                     .build()
         }

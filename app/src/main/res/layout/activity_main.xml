@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="#515151"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -12,29 +13,36 @@
 
         <Button
             android:layout_margin="16dp"
-            android:text="Autohide progress"
+            android:text="@string/auto_hide_progress"
             android:id="@+id/button1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <Button
             android:layout_margin="16dp"
-            android:text="Red alert"
+            android:text="@string/red_alert"
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <Button
             android:layout_margin="16dp"
-            android:text="BLINK!"
+            android:text="@string/blink"
             android:id="@+id/button3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <Button
             android:layout_margin="16dp"
-            android:text="Transparent alert"
+            android:text="@string/transparent_alert"
             android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <CheckBox
+            android:id="@+id/dark_status_checkbox"
+            android:text="@string/enable_dark_status_bar_icons"
+            android:layout_marginTop="56dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
