@@ -6,14 +6,12 @@ import android.graphics.Typeface
 import android.os.Build
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import android.view.animation.AccelerateInterpolator
 import com.fede987.statusbaralert.utils.getStatusBarHeight
 
 /**
  * Created by fede987 on 05/04/18.
  */
-
 class StatusBarAlert {
 
     /**
@@ -25,6 +23,8 @@ class StatusBarAlert {
         private var text: Int = 0
         private var stringText: String = ""
         private var alertColor: Int = 0
+        private var textColor: Int = 0
+        private var indeterminateProgressBarColor: Int = 0
         private var showProgress: Boolean = false
         private var duration: Long = 2000
         private var autoHide: Boolean = true
@@ -61,6 +61,26 @@ class StatusBarAlert {
         }
 
         /**
+         * Sets status bar text color.
+         * @param textColor status bar text color resource.
+         * @return Builder
+         */
+        fun withTextColor(textColor: Int): Builder {
+            this.textColor = textColor
+            return this
+        }
+
+        /**
+         * Sets indeterminate progress bar color.
+         * @param indeterminateProgressBarColor indeterminate progress bar color.
+         * @return Builder
+         */
+        fun withIndeterminateProgressBarColor(indeterminateProgressBarColor: Int): Builder {
+            this.indeterminateProgressBarColor = indeterminateProgressBarColor
+            return this
+        }
+
+        /**
          * Enables status bar indeterminate progress bar.
          * @param showProgress
          * @return Builder
@@ -71,7 +91,7 @@ class StatusBarAlert {
         }
 
         /**
-         * Enables autohide after status bar alert has been shown.
+         * Enables autoHide after status bar alert has been shown.
          * @param autoHide
          * @return Builder
          */
@@ -104,24 +124,44 @@ class StatusBarAlert {
          * Builds and return status bar alert as a View.
          * @return view status bar alert.
          */
-        fun build(): StatusBarAlertView? = addStatusBarTextAndProgress(context, text, stringText, alertColor, showProgress, typeFace, autoHide, duration)
+        fun build(): StatusBarAlertView? =
+                addStatusBarTextAndProgress(
+                        context,
+                        text,
+                        stringText,
+                        alertColor,
+                        textColor,
+                        showProgress,
+                        indeterminateProgressBarColor,
+                        typeFace,
+                        autoHide,
+                        duration)
     }
 
     companion object {
 
         @JvmField
-        val allAlerts: MutableMap<String, MutableList<StatusBarAlertView>?> = mutableMapOf()
+        val allAlerts: MutableMap<String, MutableList<StatusBarAlertView>> = mutableMapOf()
 
-        internal fun addStatusBarTextAndProgress(any: Activity, text: Int?, stringText: String?, alertColor: Int, showProgress: Boolean, typeFace: Typeface?, autoHide: Boolean, duration: Long): StatusBarAlertView? {
+        internal fun addStatusBarTextAndProgress(
+                any: Activity,
+                text: Int?,
+                stringText: String?,
+                alertColor: Int,
+                textColor: Int,
+                showProgress: Boolean,
+                indeterminateProgressBarColor: Int,
+                typeFace: Typeface?,
+                autoHide: Boolean,
+                duration: Long): StatusBarAlertView? {
 
             this.hide(any)
 
-            val statusBarAlert = StatusBarAlertView(any, alertColor, stringText, text, typeFace, showProgress, autoHide, duration)
+            val statusBarAlert = StatusBarAlertView(any, alertColor, stringText, text, textColor, typeFace, showProgress, indeterminateProgressBarColor, autoHide, duration)
 
             if (allAlerts[any.componentName.className] == null) {
                 allAlerts[any.componentName.className] = mutableListOf()
             }
-
             allAlerts[any.componentName.className]?.add(statusBarAlert)
 
 
@@ -134,9 +174,8 @@ class StatusBarAlert {
                 replaceWith = ReplaceWith(expression = "StatusBarAlert.hide(activity) {}"))
         fun hide(any: Activity, onHidden: Runnable?) {
 
-            if (allAlerts[any.componentName.className] == null || allAlerts[any.componentName.className]?.size == 0) {
-                onHidden?.run()
-            } else {
+            if (allAlerts[any.componentName.className] == null || allAlerts[any.componentName.className]?.size == 0) onHidden?.run()
+            else {
                 allAlerts[any.componentName.className]?.forEach {
                     hideInternal(any, it, onHidden)
                 }
@@ -145,10 +184,8 @@ class StatusBarAlert {
         }
 
         fun hide(any: Activity, onHidden: (() -> Unit)? = null) {
-
-            if (allAlerts[any.componentName.className] == null || allAlerts[any.componentName.className]?.size == 0) {
-                onHidden?.invoke()
-            } else {
+            if (allAlerts[any.componentName.className] == null || allAlerts[any.componentName.className]?.size == 0) onHidden?.invoke()
+            else {
                 allAlerts[any.componentName.className]?.forEach {
                     hideInternal(any, it, null, onHidden)
                 }
@@ -156,31 +193,23 @@ class StatusBarAlert {
             }
         }
 
-        private fun hideInternal(any: Activity, it: StatusBarAlertView, onHiddenRunnable: Runnable? = null, onHidden: (() -> Unit)? = null) {
+        private fun hideInternal(any: Activity, statusBarAlert: StatusBarAlertView, onHiddenRunnable: Runnable? = null, onHidden: (() -> Unit)? = null) {
+            if (statusBarAlert.parent != null) {
 
-            if (it.parent != null) {
+                val decorView = any.window.decorView as ViewGroup
 
-                any.window.decorView.rootView.systemUiVisibility =
-                        any.window.decorView.rootView.systemUiVisibility and View.SYSTEM_UI_FLAG_LOW_PROFILE.inv()
+                decorView.systemUiVisibility = decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_LOW_PROFILE.inv()
 
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    any.window.statusBarColor = it.statusBarColorOringinal
-                    if (it.hasOriginalStatusBarTranslucent) {
-                        any.window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-                    }
-                }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) any.window.statusBarColor = statusBarAlert.statusBarColorOringinal
 
-                val decor = any.window.decorView as ViewGroup
-
-                it.animate()
+                statusBarAlert.animate()
                         ?.translationY(-any.getStatusBarHeight().toFloat())
-                        ?.setDuration(150)
-                        ?.setStartDelay(500)
+                        ?.setDuration(any.resources.getInteger(android.R.integer.config_shortAnimTime).toLong())
                         ?.setInterpolator(AccelerateInterpolator())
                         ?.setListener(object : Animator.AnimatorListener {
                             override fun onAnimationRepeat(animation: Animator?) {}
                             override fun onAnimationEnd(animation: Animator?) {
-                                decor.removeView(it)
+                                decorView.removeView(statusBarAlert)
                                 onHiddenRunnable?.run()
                                 onHidden?.invoke()
                             }
