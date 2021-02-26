@@ -2,7 +2,8 @@ apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'com.android.library'
-apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
+group = 'com.github.fede987'
 
 android {
     compileSdkVersion 29
@@ -43,6 +44,3 @@ repositories {
 tasks.withType(Javadoc).all {
     enabled = false
 }
-
-apply from: 'install.gradle'
-apply from: 'bintray.gradle'

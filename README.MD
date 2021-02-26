@@ -1,6 +1,7 @@
 
 [![Android Arsenal]( https://img.shields.io/badge/Android%20Arsenal-Status%20Bar%20Alert-green.svg?style=flat )]( https://android-arsenal.com/details/1/7037 )
- [![Download](https://api.bintray.com/packages/fede987/status-bar-alert/status-bar-alert/images/download.svg) ](https://bintray.com/fede987/status-bar-alert/status-bar-alert/_latestVersion)
+[![](https://jitpack.io/v/fede87/StatusBarAlert.svg)](https://jitpack.io/#fede87/StatusBarAlert)
+
 
 <img src="https://github.com/fede87/StatusBarAlert/raw/master/status_bar_alert_demo.gif" width="330" height="600" />
 
@@ -21,11 +22,28 @@ This lib is supported by every device with a SDK level of at least 14 (Android 4
 
 ### Gradle
 
+#####Step 1. Add the JitPack repository to your build file
+
+gradle: add it in your root build.gradle at the end of repositories:
+
+```
+allprojects {
+	repositories {
+		...
+		maven { url 'https://jitpack.io' }
+	}
+}
+```
+
 
 Add this line to your app's dependencies:
 
+
 ```
+
 implementation 'com.fede987:status-bar-alert:1.2.0'
+
+
 ```
 
 ### Quick Sample
