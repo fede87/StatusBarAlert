@@ -22,7 +22,7 @@ This lib is supported by every device with a SDK level of at least 14 (Android 4
 
 ### Gradle
 
-#####Step 1. Add the JitPack repository to your build file
+##### Step 1. Add the JitPack repository to your build file
 
 gradle: add it in your root build.gradle at the end of repositories:
 
@@ -36,7 +36,7 @@ allprojects {
 ```
 
 
-Add this line to your app's dependencies:
+##### Step 2. Add this line to your app's dependencies:
 
 
 ```
