@@ -136,7 +136,7 @@ class StatusBarAlertView(
         @SuppressLint("NewApi")
         if (isLollipop) statusBarColorOringinal = any.window.statusBarColor
 
-        decorView.addView(this)
+        decorView.post { decorView.addView(this) }
 
         wrapper.translationY = -statusBarHeight.toFloat()
 
