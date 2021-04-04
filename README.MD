@@ -41,7 +41,7 @@ allprojects {
 
 ```
 
-implementation 'com.fede987:status-bar-alert:1.2.0'
+implementation 'com.fede987:status-bar-alert:1.2.1'
 
 
 ```
