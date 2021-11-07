@@ -20,7 +20,6 @@ import android.widget.TextView
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.core.content.ContextCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
 import androidx.fragment.app.Fragment
@@ -30,6 +29,7 @@ import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.fede987.statusbaralert.utils.convertDpToPixel
 import com.fede987.statusbaralert.utils.getStatusBarHeight
+import com.fede987.statusbaralert.utils.getColorSafe
 import java.util.concurrent.TimeUnit
 
 @SuppressLint("ViewConstructor")
@@ -41,8 +41,8 @@ class StatusBarAlert @JvmOverloads internal constructor(
 	private val typeFace: Typeface? = null,
 	private val showProgress: Boolean = false,
 	private val progressBarColor: Int = Color.WHITE,
-	private val autoHide: Boolean = false,
-	private val duration: Long = 0L
+	private var autoHide: Boolean = false,
+	private var duration: Long = 0L
 ) : LinearLayoutCompat(activity) {
 	
 	private var textView: TextView? = null
@@ -259,6 +259,84 @@ class StatusBarAlert @JvmOverloads internal constructor(
 		progressBar?.visibility = View.GONE
 	}
 	
+	/**
+	 * Sets the StatusBarAlert background color
+	 *
+	 * @param color accepts ColorRes and ColorInt
+	 * @param isColorInt helps to detect if the color is a resource or color int (not required)
+	 */
+	fun setAlertColor(color: Int, isColorInt: Boolean = false) {
+		wrapper?.setBackgroundColor(activity.getColorSafe(color, isColorInt))
+	}
+	
+	/**
+	 * Sets the StatusBarAlert text color
+	 *
+	 * @param color accepts ColorRes and ColorInt
+	 * @param isColorInt helps to detect if the color is a resource or color int (not required)
+	 */
+	fun setTextColor(color: Int, isColorInt: Boolean = false) {
+		textView?.setTextColor(activity.getColorSafe(color, isColorInt))
+	}
+	
+	/**
+	 * Sets the StatusBarAlert progress bar color
+	 *
+	 * @param color accepts ColorRes and ColorInt
+	 * @param isColorInt helps to detect if the color is a resource or color int (not required)
+	 */
+	fun setProgressBarColor(color: Int, isColorInt: Boolean = false) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			progressBar?.indeterminateTintMode = PorterDuff.Mode.SRC_IN
+			progressBar?.indeterminateTintList = ColorStateList.valueOf(activity.getColorSafe(color, isColorInt))
+		} else {
+			progressBar?.indeterminateDrawable?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(
+				activity.getColorSafe(color, isColorInt),
+				BlendModeCompat.SRC_IN
+			)
+		}
+	}
+	
+	/**
+	 * Sets custom duration before the StatusBarAlert is going to be hidden.
+	 *
+	 * @param millis milliseconds before hiding
+	 */
+	fun setDuration(millis: Long) {
+		this.duration = millis
+	}
+	
+	/**
+	 * Sets custom duration before the StatusBarAlert is going to be hidden.
+	 *
+	 * @param time time before hiding
+	 * @param unit TimeUnit which is used to associate the time with.
+	 * @see TimeUnit
+	 */
+	fun setDuration(time: Long, unit: TimeUnit) {
+		this.duration = TimeUnit.MILLISECONDS.convert(time, unit)
+	}
+	
+	/**
+	 * Enable or disable autoHide after StatusBarAlert has been shown.
+	 *
+	 * @param hide whether or not to hide it automatically
+	 * @return Builder
+	 */
+	fun setAutoHide(autoHide: Boolean) {
+		this.autoHide = autoHide
+	}
+	
+	/**
+	 * Sets custom typeface for the text.
+	 *
+	 * @param typeface the custom typeface
+	 * @return Builder
+	 */
+	fun setTypeface(typeface: Typeface?) {
+		textView?.typeface = typeface
+	}
+	
 	override fun onDetachedFromWindow() {
 		activity.window?.decorView?.setOnSystemUiVisibilityChangeListener(null)
 		super.onDetachedFromWindow()
@@ -372,7 +450,7 @@ class StatusBarAlert @JvmOverloads internal constructor(
 		 */
 		@JvmOverloads
 		fun alertColor(color: Int, isColorInt: Boolean = false) = apply {
-			this.alertColor = getColor(color, isColorInt)
+			this.alertColor = activity.getColorSafe(color, isColorInt)
 		}
 		
 		/**
@@ -384,7 +462,7 @@ class StatusBarAlert @JvmOverloads internal constructor(
 		 */
 		@JvmOverloads
 		fun textColor(color: Int, isColorInt: Boolean = false) = apply {
-			this.textColor = getColor(color, isColorInt)
+			this.textColor = activity.getColorSafe(color, isColorInt)
 		}
 		
 		/**
@@ -396,7 +474,7 @@ class StatusBarAlert @JvmOverloads internal constructor(
 		 */
 		@JvmOverloads
 		fun progressBarColor(color: Int, isColorInt: Boolean = false) = apply {
-			this.progressColor = getColor(color, isColorInt)
+			this.progressColor = activity.getColorSafe(color, isColorInt)
 		}
 		
 		/**
@@ -407,18 +485,6 @@ class StatusBarAlert @JvmOverloads internal constructor(
 		 */
 		fun typeface(typeface: Typeface?) = apply {
 			this.typeface = typeface
-		}
-		
-		private fun getColor(color: Int, isColor: Boolean): Int {
-			return if (!isColor) {
-				try {
-					ContextCompat.getColor(activity, color)
-				} catch (ignored: Exception) {
-					color
-				}
-			} else {
-				color
-			}
 		}
 		
 		/**
