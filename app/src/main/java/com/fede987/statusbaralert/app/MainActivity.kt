@@ -1,26 +1,27 @@
 package com.fede987.statusbaralert.app
 
+import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.fede987.statusbaralert.StatusBarAlert
-import com.fede987.statusbaralert.StatusBarAlertView
+import com.fede987.statusbaralert.utils.statusBarAlert
 import kotlinx.android.synthetic.main.activity_main.button1
 import kotlinx.android.synthetic.main.activity_main.button2
 import kotlinx.android.synthetic.main.activity_main.button3
 import kotlinx.android.synthetic.main.activity_main.button4
 import kotlinx.android.synthetic.main.activity_main.dark_status_checkbox
+import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
 
     var typeface: Typeface? = null
     val handler: Handler = Handler()
-    var alert1: StatusBarAlertView? = null
-    var alert2: StatusBarAlertView? = null
+    var alert1: StatusBarAlert? = null
+    var alert2: StatusBarAlert? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,9 +36,6 @@ class MainActivity : AppCompatActivity() {
         alert1 = null
         alert2 = null
         handler.removeCallbacksAndMessages(null)
-        StatusBarAlert.hide(this) {
-            Toast.makeText(applicationContext, "hidden alert @onDestroy", Toast.LENGTH_SHORT).show()
-        }
         super.onDestroy()
     }
 
@@ -58,80 +56,73 @@ class MainActivity : AppCompatActivity() {
             alert1 = StatusBarAlert.Builder(this@MainActivity)
                     .autoHide(true)
                     .showProgress(true)
-                    .withDuration(10000)
-                    .withText("autohide!")
-                    .withTypeface(typeface!!)
-                    .withAlertColor(R.color.colorAccent)
-                    .withIndeterminateProgressBarColor(R.color.colorPrimary)
-                    .withTextColor(R.color.colorPrimary)
-                    .build()
+                    .duration(10000)
+                    .text("autohide!")
+                    .typeface(typeface)
+                    .alertColor(R.color.colorAccent)
+                    .progressBarColor(R.color.colorPrimary)
+                    .textColor(R.color.colorPrimary)
+                    .build().apply { show() }
 
             handler.postDelayed({
-                alert1?.updateText("Phase 1!")
-                alert1?.showIndeterminateProgress()
+                alert1?.setText("Phase 1!")
+                alert1?.showProgress()
             }, 2000)
 
 
             handler.postDelayed({
-                alert1?.updateText("Phase 2!")
-                alert1?.showIndeterminateProgress()
+                alert1?.setText("Phase 2!")
+                alert1?.showProgress()
             }, 4000)
 
             handler.postDelayed({
-                alert1?.updateText("Completed!")
-                alert1?.hideIndeterminateProgress()
+                alert1?.setText("Completed!")
+                alert1?.hideProgress()
             }, 7500)
 
         }
 
         button2.setOnClickListener {
-
-            alert2 = StatusBarAlert.Builder(this@MainActivity)
-                    .autoHide(false)
-                    .showProgress(false)
-                    .withText("RED ALERT!")
-                    .withTypeface(typeface!!)
-                    .withAlertColor(R.color.red)
-                    .withTextColor(R.color.colorPrimaryDark)
-                    .withIndeterminateProgressBarColor(R.color.colorPrimaryDark)
-                    .build()
+            alert2 = statusBarAlert {
+                autoHide(false)
+                showProgress(false)
+                text("RED ALERT!")
+                typeface(typeface)
+                alertColor(R.color.red)
+                textColor(R.color.colorPrimaryDark)
+            }.show()
 
             handler.postDelayed({
                 if (alert2?.parent != null)
-                    alert2?.updateText("INFO UPDATED!!")
+                    alert2?.setText("INFO UPDATED!!")
             }, 2000)
 
         }
 
         button3.setOnClickListener {
-
-            StatusBarAlert.Builder(
-                    this@MainActivity)
-                    .autoHide(true)
-                    .withDuration(400)
-                    .showProgress(false)
-                    .withText("BLINK!")
-                    .withTypeface(typeface!!)
-                    .withAlertColor(R.color.green)
-                    .withTextColor(R.color.colorAccent)
-                    .withIndeterminateProgressBarColor(R.color.colorAccent)
-                    .build()
-
+            statusBarAlert {
+                autoHide()
+                duration(400)
+                showProgress(false)
+                text("BLINK!")
+                typeface(typeface)
+                alertColor(R.color.green)
+                textColor(R.color.colorAccent)
+                progressBarColor(R.color.colorAccent)
+            }.show()
         }
 
         button4.setOnClickListener {
-
-            StatusBarAlert.Builder(
-                    this@MainActivity)
-                    .autoHide(true)
-                    .withDuration(2000)
-                    .showProgress(false)
-                    .withText("transparent alert!")
-                    .withAlertColor(android.R.color.transparent)
-                    .withTextColor(R.color.colorAccent)
-                    .withIndeterminateProgressBarColor(R.color.colorAccent)
-                    .withTypeface(typeface!!)
-                    .build()
+            statusBarAlert {
+                autoHide()
+                duration(2, TimeUnit.SECONDS)
+                showProgress(false)
+                text("transparent alert!")
+                alertColor(Color.TRANSPARENT)
+                textColor(R.color.colorAccent)
+                progressBarColor(R.color.colorAccent)
+                typeface(typeface)
+            }.show()
         }
     }
 }
