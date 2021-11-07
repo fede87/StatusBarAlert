@@ -26,12 +26,11 @@ This lib is supported by every device with a SDK level of at least 14 (Android 4
 
 gradle: add it in your root build.gradle at the end of repositories:
 
-```
+```gradle
 allprojects {
-	repositories {
-		...
-		maven { url 'https://jitpack.io' }
-	}
+    repositories {
+	maven { url 'https://jitpack.io' }
+    }
 }
 ```
 
@@ -39,56 +38,54 @@ allprojects {
 ##### Step 2. Add this line to your app's dependencies:
 
 
-```
-
-implementation 'com.fede987:status-bar-alert:1.2.1'
-
-
+```gradle
+implementation 'com.github.fede87:StatusBarAlert:2.0.0'
 ```
 
 ### Quick Sample
 
-Show a new status bar alert:
+Create a new StatusBarAlert in activities and fragments.
 
+Using Kotlin DSL:
+
+```kotlin
+statusBarAlert {
+    autoHide()
+    dduration(2, TimeUnit.SECONDS)
+    showProgress()
+    text("Kotlin DSL")
+    alertColor(android.R.color.red)
+    textColor(android.R.color.white)
+    progressBarColor(android.R.color.white)
+}.show()
 ```
-val statusBarAlertview: StatusBarAlertView = StatusBarAlert.Builder(this@MainActivity)
-                       .autoHide(true)
+
+Using Java way:
+
+```kotlin
+val statusBarAlertview: StatusBarAlert = StatusBarAlert.Builder(this@MainActivity)
+                       .autoHide()
                        .withDuration(100)
-                       .showProgress(true)
-                       .withText("autohide!")
-                       .withAlertColor(R.color.colorPrimaryDark)
-                       .withTextColor(R.color.colorAccent)
-                       .withIndeterminateProgressBarColor(R.color.colorAccent)
-                       .withTypeface(typeface)
-                       .build()
+                       .showProgress()
+                       .text("autohide!")
+                       .alertColor(R.color.colorPrimaryDark)
+                       .textColor(R.color.colorAccent)
+                       .progressBarColor(R.color.colorAccent)
+                       .typeface(typeface)
+                       .build().show()
                        
                        
 //update status bar alert view text at any time:
-statusBarAlertView.updateText("UPDATED!!")
+statusBarAlertView.setText("UPDATED!!")
 //or:
-statusBarAlertView.updateText(R.string.updated)
+statusBarAlertView.setText(R.string.updated)
  
  
 // show indeterminate progress:
-statusBarAlertView.showIndeterminateProgress()
+statusBarAlertView.showProgress()
  
 // hide indeterminate progress:
-statusBarAlertView.hideIndeterminateProgress()
- 
-```
-
-Hide all status bar alerts for current activity with an optional "on hidden" callback:
-
-```
-StatusBarAlert.hide(this@MainActivity) {
-    // onHidden callback
-    Toast.makeText(this@MainActivity.applicationContext, "Alert has been hidden.", Toast.LENGHT_SHORT).show()
-}
-
-// or just call:
-
-StatusBarAlert.hide(this@MainActivity)
-
+statusBarAlertView.hideProgress()
 ```
 
 ## License
