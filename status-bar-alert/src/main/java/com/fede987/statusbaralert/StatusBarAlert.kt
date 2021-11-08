@@ -30,6 +30,7 @@ import androidx.lifecycle.OnLifecycleEvent
 import com.fede987.statusbaralert.utils.convertDpToPixel
 import com.fede987.statusbaralert.utils.getStatusBarHeight
 import com.fede987.statusbaralert.utils.getColorSafe
+import java.lang.ref.WeakReference
 import java.util.concurrent.TimeUnit
 
 @SuppressLint("ViewConstructor")
@@ -159,8 +160,8 @@ class StatusBarAlert @JvmOverloads internal constructor(
 	 * @see StatusBarAlert
 	 */
 	fun show(): StatusBarAlert {
-		if (currentInstance != null) {
-			currentInstance?.hide {
+		if (currentInstance.get() != null) {
+			currentInstance.get()?.hide {
 				showInternal()
 			}
 		} else {
@@ -170,7 +171,7 @@ class StatusBarAlert @JvmOverloads internal constructor(
 	}
 	
 	private fun showInternal() {
-		currentInstance = this
+		currentInstance = WeakReference(this)
 		val lowProfileSystemUIVisibility = decorView?.systemUiVisibility
 			?.or(View.SYSTEM_UI_FLAG_LOW_PROFILE)
 			?: View.SYSTEM_UI_FLAG_LOW_PROFILE
@@ -210,7 +211,7 @@ class StatusBarAlert @JvmOverloads internal constructor(
 					?: View.SYSTEM_UI_FLAG_LOW_PROFILE.inv()
 				(decorView as? ViewGroup?)?.removeView(this)
 			}
-			currentInstance = null
+			currentInstance.clear()
 			onHidden?.invoke()
 		}
 		return this
@@ -343,8 +344,7 @@ class StatusBarAlert @JvmOverloads internal constructor(
 	}
 	
 	companion object {
-		@SuppressLint("StaticFieldLeak")
-		private var currentInstance: StatusBarAlert? = null
+		private var currentInstance: WeakReference<StatusBarAlert?> = WeakReference(null)
 	}
 	
 	class Builder(private val activity: Activity) {
