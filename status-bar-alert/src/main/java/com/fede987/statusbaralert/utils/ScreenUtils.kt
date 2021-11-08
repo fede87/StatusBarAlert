@@ -1,6 +1,7 @@
 package com.fede987.statusbaralert.utils
 
 import android.app.Activity
+import android.content.Context
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.WindowManager
@@ -8,7 +9,7 @@ import android.view.WindowManager
 private var titleBarHeigh = 0
 private val dipsMap: MutableMap<Float, Int> = mutableMapOf()
 
-internal fun Activity.convertDpToPixel(dp: Float): Int {
+internal fun Context.convertDpToPixel(dp: Float): Int {
     if (dipsMap.containsKey(dp)) return dipsMap[dp]!!
     val resources = this.resources
     val metrics = resources.displayMetrics
@@ -17,7 +18,7 @@ internal fun Activity.convertDpToPixel(dp: Float): Int {
     return value
 }
 
-internal fun Activity.getStatusBarHeight(): Int {
+internal fun Context.getStatusBarHeight(): Int {
     if (titleBarHeigh > 0) return titleBarHeigh
     val resourceId = this.resources.getIdentifier("status_bar_height", "dimen", "android")
     titleBarHeigh = if (resourceId > 0) {
