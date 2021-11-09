@@ -51,7 +51,7 @@ Using Kotlin DSL:
 ```kotlin
 statusBarAlert {
     autoHide()
-    dduration(2, TimeUnit.SECONDS)
+    duration(2, TimeUnit.SECONDS)
     showProgress()
     text("Kotlin DSL")
     alertColor(android.R.color.red)
