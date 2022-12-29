@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.fede987.statusbaralert.StatusBarAlert
@@ -19,7 +20,7 @@ import java.util.concurrent.TimeUnit
 class MainActivity : AppCompatActivity() {
 
     var typeface: Typeface? = null
-    val handler: Handler = Handler()
+    val handler: Handler = Handler(Looper.getMainLooper())
     var alert1: StatusBarAlert? = null
     var alert2: StatusBarAlert? = null
 
