@@ -22,11 +22,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.graphics.BlendModeColorFilterCompat
 import androidx.core.graphics.BlendModeCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.WindowInsetsControllerCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.*
 import com.fede987.statusbaralert.utils.convertDpToPixel
 import com.fede987.statusbaralert.utils.getStatusBarHeight
 import com.fede987.statusbaralert.utils.getColorSafe
@@ -69,14 +70,21 @@ class StatusBarAlert @JvmOverloads internal constructor(
 	
 	private fun observeLifecycle() {
 		if (activity is AppCompatActivity) {
-			activity.lifecycle.addObserver(object : LifecycleObserver {
-				
-				@OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-				fun destroy() {
+			activity.lifecycle.addObserver(object: DefaultLifecycleObserver{
+				override fun onDestroy(owner: LifecycleOwner) {
 					hide()
 					activity.lifecycle.removeObserver(this)
 				}
 			})
+			// using the annotation leads to reflection/code gen which is undesirable
+//			activity.lifecycle.addObserver(object : LifecycleObserver {
+//
+//				@OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+//				fun destroy() {
+//					hide()
+//					activity.lifecycle.removeObserver(this)
+//				}
+//			})
 		}
 	}
 	
@@ -172,14 +180,22 @@ class StatusBarAlert @JvmOverloads internal constructor(
 	
 	private fun showInternal() {
 		currentInstance = WeakReference(this)
-		val lowProfileSystemUIVisibility = decorView?.systemUiVisibility
-			?.or(View.SYSTEM_UI_FLAG_LOW_PROFILE)
-			?: View.SYSTEM_UI_FLAG_LOW_PROFILE
-		decorView?.systemUiVisibility = lowProfileSystemUIVisibility
-		decorView?.setOnSystemUiVisibilityChangeListener { _ ->
-			this.systemUiVisibility = lowProfileSystemUIVisibility
+//		val lowProfileSystemUIVisibility = decorView?.systemUiVisibility
+//			?.or(View.SYSTEM_UI_FLAG_LOW_PROFILE)
+//			?: View.SYSTEM_UI_FLAG_LOW_PROFILE
+//		decorView?.systemUiVisibility = lowProfileSystemUIVisibility
+//		decorView?.setOnSystemUiVisibilityChangeListener { _ ->
+//			this.systemUiVisibility = lowProfileSystemUIVisibility
+//		}
+		//backward and forward compatibility is ensured using [WindowInsetsControllerCompat] api
+		decorView?.let {decor->
+			WindowCompat.setDecorFitsSystemWindows(activity.window,false) // signal to the system that we will handle
+			// the insets ourselves
+			WindowInsetsControllerCompat(activity.window,decor).apply {
+				hide(WindowInsetsCompat.Type.statusBars())
+				systemBarsBehavior =WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+			}
 		}
-		
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			statusBarColorOriginal = activity.window.statusBarColor
 		}
@@ -205,10 +221,17 @@ class StatusBarAlert @JvmOverloads internal constructor(
 		}
 		
 		slideUp {
+
 			decorView?.post {
-				decorView?.systemUiVisibility = decorView?.systemUiVisibility
-					?.and(View.SYSTEM_UI_FLAG_LOW_PROFILE.inv())
-					?: View.SYSTEM_UI_FLAG_LOW_PROFILE.inv()
+				//backward and forward compatibility is ensured using [WindowInsetsControllerCompat] api
+				WindowCompat.setDecorFitsSystemWindows(activity.window,true) // signal to the system that it should
+				// handle insets for us
+				WindowInsetsControllerCompat(activity.window, decorView!!).apply {
+					show(WindowInsetsCompat.Type.statusBars())
+				}
+//				decorView?.systemUiVisibility = decorView?.systemUiVisibility
+//					?.and(View.SYSTEM_UI_FLAG_LOW_PROFILE.inv())
+//					?: View.SYSTEM_UI_FLAG_LOW_PROFILE.inv()
 				(decorView as? ViewGroup?)?.removeView(this)
 			}
 			currentInstance.clear()
@@ -321,7 +344,7 @@ class StatusBarAlert @JvmOverloads internal constructor(
 	/**
 	 * Enable or disable autoHide after StatusBarAlert has been shown.
 	 *
-	 * @param hide whether or not to hide it automatically
+	 * @param hide whether to hide it automatically
 	 * @return Builder
 	 */
 	fun setAutoHide(autoHide: Boolean) {
@@ -338,10 +361,7 @@ class StatusBarAlert @JvmOverloads internal constructor(
 		textView?.typeface = typeface
 	}
 	
-	override fun onDetachedFromWindow() {
-		activity.window?.decorView?.setOnSystemUiVisibilityChangeListener(null)
-		super.onDetachedFromWindow()
-	}
+
 	
 	companion object {
 		private var currentInstance: WeakReference<StatusBarAlert?> = WeakReference(null)
